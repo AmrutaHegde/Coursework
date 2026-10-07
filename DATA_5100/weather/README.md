@@ -47,6 +47,20 @@ The chart cells currently read `data/clean_seattle_sf_weather.csv`. The cell tha
 
 ---
 
+**Steps taken**
+1. Inspected both NOAA daily precipitation files (Seattle station `US1WAKG0225`, San Francisco International Airport `USW00023234`).
+2. Converted the date columns, which use different formats in each file, to datetime.
+3. Kept only the date and precipitation columns, restricted both files to 2018 to 2022, and checked for duplicates.
+4. Identified missing values: Seattle was missing 190 of 1,826 days (168 absent dates and 22 blank values); San Francisco was complete.
+5. Joined the two cities on date with an outer join, reshaped to tidy (long) format, and renamed columns to lowercase names.
+6. Imputed each missing Seattle value with Seattle's mean precipitation for that calendar day across the other years, and flagged imputed values.
+7. Created derived variables (year, month, day, and a flag for any precipitation) and saved the clean data.
+8. Explored the data with summary statistics and graphs, then tested differences between the cities for each month (Welch's t-test for mean daily precipitation, z-test for the proportion of days with precipitation), with a robustness check that excludes imputed days.
+
+**Analysis file:** `seattle_vs_sf_rain_analysis.ipynb`
+
+**Clean data file:** `data/clean_seattle_sf_weather.csv`
+
 ## Results
 
 The notebook's current yearly chart suggests that the Seattle station recorded more total precipitation than the San Francisco airport station over 2018–2022. The monthly chart shows substantial variation, so the overall result does not mean Seattle was wetter in every month. These charts compare precipitation amounts; they do not compare the number of rainy days.
